@@ -4,11 +4,7 @@ import { GlassSwitch } from './GlassSwitch'
 import { GlassSlider } from './GlassSlider'
 import { GlassNotification } from './GlassNotification'
 import { GlassContextMenu } from './GlassContextMenu'
-import { GlassVideoControls } from './GlassVideoControls'
 import { GlassCanvas } from './GlassCanvas'
-
-// Free test video with good colours for the glass effect
-const VIDEO_SRC = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4";
 
 function App() {
   const [switchOn, setSwitchOn] = useState(true)
@@ -16,45 +12,35 @@ function App() {
 
   return (
     <div className="page">
-      {/* ── Video & Canvas ── */}
-      <section className="section">
+      {/* ── 视频与画布 ── */}
+      <section className="section section-canvas">
         <header className="section-header">
-          <h2>Video &amp; Canvas</h2>
+          <h2>视频与画布</h2>
           <p>
-            Safari won&apos;t SVG-filter a live video or canvas, so each runs on one WebGL
-            renderer that samples the source and draws its lenses. Move the pointer over
-            the canvas to steer it.
+            Safari 无法对实时视频或画布进行 SVG 滤镜处理，因此每个组件独立运行一个
+            WebGL 渲染器来采样内容并绘制镜头。移动鼠标即可控制画布中的镜头位置。
           </p>
         </header>
         <div className="grid">
           <div className="card tall">
             <div className="preview">
-              <GlassVideoControls src={VIDEO_SRC} />
-            </div>
-            <div className="card-info">
-              <h3>Video player</h3>
-              <p>Each transport control is a lens bending the live video</p>
-            </div>
-          </div>
-          <div className="card tall">
-            <div className="preview">
               <GlassCanvas />
             </div>
             <div className="card-info">
-              <h3>Canvas</h3>
-              <p>A lens roaming over a generative canvas scene</p>
+              <h3>画布</h3>
+              <p>一个在生成艺术画布上漫游的玻璃镜头</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Components ── */}
-      <section className="section">
+      {/* ── 面板组件 ── */}
+      <section className="section section-panel">
         <header className="section-header">
-          <h2>Components</h2>
+          <h2>面板组件</h2>
           <p>
-            Frosted glass panels that truly refract the wallpaper behind them, not a flat
-            backdrop blur. Set the background once; content sits crisp on top.
+            真正折射背后壁纸的磨砂玻璃面板，而非普通的背景模糊。
+            只需设置一次背景，内容就会清晰地呈现在玻璃上方。
           </p>
         </header>
         <div className="grid">
@@ -63,8 +49,8 @@ function App() {
               <GlassNotification />
             </div>
             <div className="card-info">
-              <h3>Notification</h3>
-              <p>A frosted glass card over a wallpaper</p>
+              <h3>通知卡片</h3>
+              <p>悬浮在壁纸上的磨砂玻璃通知面板</p>
             </div>
           </div>
           <div className="card tall">
@@ -72,20 +58,19 @@ function App() {
               <GlassContextMenu />
             </div>
             <div className="card-info">
-              <h3>Context menu</h3>
-              <p>A glass menu over a wallpaper; right-click to move it</p>
+              <h3>右键菜单</h3>
+              <p>悬浮在壁纸上的玻璃菜单，右键单击可移动位置</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Controls ── */}
-      <section className="section">
+      {/* ── 交互控件 ── */}
+      <section className="section section-controls">
         <header className="section-header">
-          <h2>Controls</h2>
+          <h2>交互控件</h2>
           <p>
-            Interactive controls where the moving part dissolves into a lens that bends
-            the track through it.
+            按下时移动部件融化成玻璃镜头，透过镜头折射出轨道内容。
           </p>
         </header>
         <div className="grid">
@@ -96,13 +81,13 @@ function App() {
                 onCheckedChange={setSwitchOn}
                 width={74}
                 height={30}
-                activeColor="#0a84ff"
-                trackColor="#3a3a3c"
+                activeColor="#1db8ff"
+                trackColor="#0d1f33"
               />
             </div>
             <div className="card-info">
-              <h3>Switch</h3>
-              <p>Press or drag, and the pill melts into a lens</p>
+              <h3>开关</h3>
+              <p>按下或拖动，白色药丸融化成玻璃镜头</p>
             </div>
           </div>
           <div className="card">
@@ -112,13 +97,13 @@ function App() {
                 onValueChange={setSliderVal}
                 width={340}
                 thumbHeight={22}
-                activeColor="#0a84ff"
-                trackColor="#3a3a3c"
+                activeColor="#a259ff"
+                trackColor="#2a1f3d"
               />
             </div>
             <div className="card-info">
-              <h3>Slider</h3>
-              <p>The thumb bends the fill through it</p>
+              <h3>滑块</h3>
+              <p>拖动时滑块折射出填充轨道的颜色</p>
             </div>
           </div>
         </div>

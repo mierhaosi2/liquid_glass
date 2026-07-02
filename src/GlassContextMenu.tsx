@@ -185,13 +185,12 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
         </>
       )}
 
-      {/* Hint */}
+      {/* 操作提示 */}
       <div style={{
         position: "absolute", bottom: 12, left: 0, right: 0,
         textAlign: "center", fontSize: 11, color: "rgba(255,255,255,0.5)",
         fontFamily: sans, pointerEvents: "none",
       }}>
-        右键单击移动菜单
       </div>
     </div>
   );

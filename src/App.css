@@ -1,32 +1,73 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   min-height: 100%;
 }
 
 body {
-  background: #0a0a0a;
+  background: #06060e;
   color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── 页面容器 + 环境光 ── */
 .page {
   max-width: 1060px;
   margin: 0 auto;
   padding: 64px 32px 80px;
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: 72px;
+}
 
-  @media (max-width: 640px) {
+@media (max-width: 640px) {
+  .page {
     padding: 40px 16px 60px;
     gap: 48px;
   }
+}
+
+/* 固定环境光背景，不影响文字层级 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 5% 0%,
+      rgba(108, 60, 255, 0.2) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 55% 45% at 95% 30%,
+      rgba(0, 160, 255, 0.14) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 50% 100%,
+      rgba(220, 60, 110, 0.12) 0%,
+      transparent 60%
+    );
+}
+
+/* 内容全部在环境光上方 */
+.page,
+.section,
+.grid,
+.card {
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Section ── */
@@ -36,20 +77,51 @@ body {
   gap: 20px;
 }
 
+/* ── Section Header ── */
 .section-header {
-  h2 {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.4px;
-    margin-bottom: 6px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-  p {
-    font-size: 14px;
-    color: rgba(255,255,255,0.5);
-    line-height: 1.55;
-    max-width: 520px;
-  }
+.section-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 各 section 标题前的彩色圆点 */
+.section-header h2::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.section-canvas .section-header h2::before {
+  background: #7c6cfc;
+  box-shadow: 0 0 10px 2px rgba(124, 108, 252, 0.7);
+}
+.section-panel .section-header h2::before {
+  background: #e84faa;
+  box-shadow: 0 0 10px 2px rgba(232, 79, 170, 0.7);
+}
+.section-controls .section-header h2::before {
+  background: #1db8ff;
+  box-shadow: 0 0 10px 2px rgba(29, 184, 255, 0.7);
+}
+
+.section-header p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+  text-align: left;
 }
 
 /* ── Grid ── */
@@ -57,55 +129,85 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+}
 
-  @media (max-width: 640px) {
+@media (max-width: 640px) {
+  .grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* ── Card ── */
+/* ── Card 基础 ── */
 .card {
-  background: #141414;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
 
-  .preview {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 160px;
-    padding: 48px 32px;
+.card .preview {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  padding: 48px 32px;
+}
 
-    &.no-pad {
-      padding: 0;
-      min-height: 240px;
-    }
-  }
+.card .preview.no-pad {
+  padding: 0;
+  min-height: 240px;
+}
 
-  &.tall .preview {
-    min-height: 300px;
-    padding: 0;
-  }
+.card.tall .preview {
+  min-height: 300px;
+  padding: 0;
+}
 
-  .card-info {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 18px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.card .card-info {
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
-    h3 {
-      font-size: 15px;
-      font-weight: 600;
-    }
+.card .card-info h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
 
-    p {
-      font-size: 13px;
-      color: rgba(255,255,255,0.4);
-    }
-  }
+.card .card-info p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── 画布区卡片 ── 深蓝紫 */
+.section-canvas .card {
+  background: #10102a;
+  border: 1px solid rgba(124, 108, 252, 0.3);
+}
+
+.section-canvas .card .card-info {
+  border-top: 1px solid rgba(124, 108, 252, 0.2);
+}
+
+/* ── 面板区卡片 ── 深玫红 */
+.section-panel .card {
+  background: #1a0e1c;
+  border: 1px solid rgba(232, 79, 170, 0.3);
+}
+
+.section-panel .card .card-info {
+  border-top: 1px solid rgba(232, 79, 170, 0.2);
+}
+
+/* ── 控件区卡片 ── 深天蓝 */
+.section-controls .card {
+  background: #080f22;
+  border: 1px solid rgba(29, 184, 255, 0.3);
+}
+
+.section-controls .card .card-info {
+  border-top: 1px solid rgba(29, 184, 255, 0.2);
 }
