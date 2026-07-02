@@ -1,0 +1,111 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  background: #0a0a0a;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 64px 32px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+
+  @media (max-width: 640px) {
+    padding: 40px 16px 60px;
+    gap: 48px;
+  }
+}
+
+/* ── Section ── */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-header {
+  h2 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.55;
+    max-width: 520px;
+  }
+}
+
+/* ── Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Card ── */
+.card {
+  background: #141414;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  .preview {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    padding: 48px 32px;
+
+    &.no-pad {
+      padding: 0;
+      min-height: 240px;
+    }
+  }
+
+  &.tall .preview {
+    min-height: 300px;
+    padding: 0;
+  }
+
+  .card-info {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+  }
+}
