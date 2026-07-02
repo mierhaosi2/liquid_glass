@@ -10,6 +10,9 @@ import {
   useLensWobble,
 } from "@samasante/liquid-glass";
 
+// Thumb position → fill width (thumb-left to thumb-center)
+const fillW = (thumbX: number, thumbHalfW: number) => thumbHalfW + thumbX;
+
 const EXPAND_ANIM = { ease: cubicBezier(0.34, 1.36, 0.42, 1), duration: 0.22 };
 const COLLAPSE_ANIM = { ease: cubicBezier(0.36, 0, 0.18, 1), duration: 0.38 };
 
@@ -55,7 +58,6 @@ export interface GlassSliderProps {
   height?: number;
   activeColor?: string;
   trackColor?: string;
-  surface?: string;
   filterResolution?: number;
 }
 
@@ -73,7 +75,6 @@ export function GlassSlider({
   height: trackH = 5,
   activeColor = "#0a84ff",
   trackColor,
-  surface,
   filterResolution = 2,
 }: GlassSliderProps) {
   const isControlled = value !== undefined;
@@ -93,7 +94,6 @@ export function GlassSlider({
   const restHalfH = thumbH / 2;
   const restRadius = thumbH / 2;
   const trackRadius = trackH / 2;
-  const refractionH = Math.round(0.75 * thumbH);
   const RUBBER_LIMIT = trackW * 0.05;
   const RUBBER_RANGE = RUBBER_LIMIT * 30;
   const pad = Math.ceil(restHalfW * 0.5 + RUBBER_LIMIT) + 2;
@@ -122,14 +122,12 @@ export function GlassSlider({
     [min, max, travel],
   );
 
-  const valueToXRef = useRef(valueToX);
-  const initialValueRef = useRef(cur);
-
   const mv = useMemo(() => {
-    const thumbX = glassValue(valueToXRef.current(initialValueRef.current));
+    const initX = valueToX(cur);
+    const thumbX = glassValue(initX);
     const lensX = deriveGlass(
       [thumbX],
-      () => (padRef.current + thumbWRef.current / 2 + thumbX.get()) / fullWRef.current,
+      () => (pad + thumbW / 2 + thumbX.get()) / fullW,
     );
     const halfW = glassValue(restHalfW);
     const halfH = glassValue(restHalfH);
@@ -152,18 +150,16 @@ export function GlassSlider({
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const visibleFillRef = useRef<HTMLDivElement>(null);
-  const refractFillRef = useRef<HTMLDivElement>(null);
   const pointerIdRef = useRef<number | null>(null);
   const draggingRef = useRef(false);
   const startClientXRef = useRef(0);
   const startThumbXRef = useRef(0);
 
-  // drive both fill layers imperatively — no CSS variable (it won't cascade into refract)
+  // Drive the visible fill imperatively (no CSS var — avoids cascade issues)
   useLayoutEffect(() => {
     const apply = (x: number) => {
-      const w = `${thumbWRef.current / 2 + x}px`;
-      if (visibleFillRef.current) visibleFillRef.current.style.width = w;
-      if (refractFillRef.current) refractFillRef.current.style.width = w;
+      if (visibleFillRef.current)
+        visibleFillRef.current.style.width = `${fillW(x, thumbWRef.current / 2)}px`;
     };
     apply(mv.thumbX.get());
     return mv.thumbX.on("change", apply);
@@ -206,29 +202,8 @@ export function GlassSlider({
     collapse();
   };
 
-  const bg = surface ?? "#ffffff";
   const track = trackColor ?? "#e1dfdf";
   const active = activeColor;
-
-  // Refract copy — fill width driven by refractFillRef imperatively (CSS vars don't cascade here)
-  const TrackCopy = (
-    <div style={{ position: "absolute", inset: 0, background: bg }}>
-      <div style={{
-        position: "absolute", top: "50%", left: pad, right: pad,
-        height: refractionH, borderRadius: trackRadius,
-        background: track, transform: "translateY(-50%)",
-      }} />
-      <div
-        ref={refractFillRef}
-        style={{
-          position: "absolute", top: "50%", left: pad,
-          width: 0,
-          height: refractionH, borderRadius: trackRadius,
-          background: active, transform: "translateY(-50%)",
-        }}
-      />
-    </div>
-  );
 
   return (
     <div ref={wrapperRef} style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
@@ -249,14 +224,14 @@ export function GlassSlider({
 
       {/* overflow-visible bleed container */}
       <div style={{ position: "relative", width: fullW, height: fullH, margin: `-${pad}px` }}>
-        {/* visible gray track */}
+        {/* gray track */}
         <div style={{
           position: "absolute", top: "50%",
           left: pad, right: pad, height: trackH,
           borderRadius: trackRadius, background: track,
           transform: "translateY(-50%)",
         }} />
-        {/* blue fill — width driven by visibleFillRef */}
+        {/* active fill — width updated imperatively via ref */}
         <div
           ref={visibleFillRef}
           style={{
@@ -267,10 +242,8 @@ export function GlassSlider({
           }}
         />
 
-        {/* Glass thumb */}
+        {/* Glass thumb — live DOM mode: bends the real track in Chrome */}
         <Glass
-          refract={TrackCopy}
-          behind={bg}
           width={mv.lensW}
           height={mv.lensH}
           radius={mv.radius}

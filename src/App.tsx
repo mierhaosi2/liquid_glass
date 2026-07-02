@@ -110,11 +110,10 @@ function App() {
               <GlassSlider
                 value={sliderVal}
                 onValueChange={setSliderVal}
-                width={240}
+                width={340}
                 thumbHeight={22}
                 activeColor="#0a84ff"
                 trackColor="#3a3a3c"
-                surface="#1c1c1e"
               />
             </div>
             <div className="card-info">
