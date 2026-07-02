@@ -9,7 +9,7 @@ const CANVAS_OPTICS: Partial<GlassOptics> = {
   depth: 0.85,
   curvature: 0.6,
   bend: 0.45,
-  bendWidth: 0.1,
+  bendWidth: 0.9,
   dispersion: 0.35,
   specular: 1.1,
   sheenAngle: 50,

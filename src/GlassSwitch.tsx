@@ -282,7 +282,7 @@ export function GlassSwitch({
           radius={mv.radius}
           center={{ x: mv.lensX, y: 0.5 }}
           optics={OPTICS}
-          filterResolution={2}
+          filterResolution={3}
           unstable_lens={{
             tintColor: "#ffffff",
             tintOpacity: mv.tintOpacity,
