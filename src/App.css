@@ -21,12 +21,13 @@ body {
 
 /* ── 页面容器 + 环境光 ── */
 .page {
-  max-width: 1060px;
+  max-width: 1440px;
+  min-width: 1280px;
   margin: 0 auto;
-  padding: 64px 32px 80px;
+  padding: 64px 0 80px;
   display: flex;
   flex-direction: column;
-  gap: 72px;
+  gap: 60px;
 }
 
 @media (max-width: 640px) {
@@ -74,54 +75,31 @@ body::before {
 .section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
 /* ── Section Header ── */
 .section-header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .section-header h2 {
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  font-size: 23px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
   color: #ffffff;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* 各 section 标题前的彩色圆点 */
-.section-header h2::before {
-  content: "";
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.section-canvas .section-header h2::before {
-  background: #7c6cfc;
-  box-shadow: 0 0 10px 2px rgba(124, 108, 252, 0.7);
-}
-.section-panel .section-header h2::before {
-  background: #e84faa;
-  box-shadow: 0 0 10px 2px rgba(232, 79, 170, 0.7);
-}
-.section-controls .section-header h2::before {
-  background: #1db8ff;
-  box-shadow: 0 0 10px 2px rgba(29, 184, 255, 0.7);
-}
-
 .section-header p {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.55);
-  line-height: 1.6;
+  font-size: 14.5px;
+  line-height: 1.5;
+  margin: 7px 0 0;
+  color: rgba(255, 255, 255, 0.6);
   text-align: left;
+  max-width: 540px;
 }
 
 /* ── Grid ── */
@@ -139,10 +117,11 @@ body::before {
 
 /* ── Card 基础 ── */
 .card {
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin-top: 22px;
 }
 
 .card .preview {
@@ -150,17 +129,17 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 160px;
+  min-height: 220px;
   padding: 48px 32px;
 }
 
 .card .preview.no-pad {
   padding: 0;
-  min-height: 240px;
+  min-height: 248px;
 }
 
 .card.tall .preview {
-  min-height: 300px;
+  min-height: 308px;
   padding: 0;
 }
 
@@ -168,23 +147,24 @@ body::before {
   padding: 18px 22px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  text-align: left;
 }
 
 .card .card-info h3 {
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 600;
   color: #ffffff;
 }
 
 .card .card-info p {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.45);
+  margin-top: 3px;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* ── 画布区卡片 ── 深蓝紫 */
 .section-canvas .card {
-  background: #10102a;
+  background: #000000;
   border: 1px solid rgba(124, 108, 252, 0.3);
 }
 
@@ -194,7 +174,7 @@ body::before {
 
 /* ── 面板区卡片 ── 深玫红 */
 .section-panel .card {
-  background: #1a0e1c;
+  background: #000000;
   border: 1px solid rgba(232, 79, 170, 0.3);
 }
 
@@ -204,10 +184,10 @@ body::before {
 
 /* ── 控件区卡片 ── 深天蓝 */
 .section-controls .card {
-  background: #080f22;
-  border: 1px solid rgba(29, 184, 255, 0.3);
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .section-controls .card .card-info {
-  border-top: 1px solid rgba(29, 184, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }

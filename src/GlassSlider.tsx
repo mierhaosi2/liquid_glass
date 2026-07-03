@@ -28,20 +28,24 @@ const OPTICS: Partial<GlassOptics> = {
   splay: 0.5,
   bend: 0.1,
   bendWidth: 0.05,
-  frost: 0,
-  brightness: 0.06,
-  specular: 1.5,
-  sheenAngle: 45,
+  frost: 2.5,
+  brightness: 0.32,
+  specular: 2.5,
+  sheenAngle: 78,
   sheenDark: false,
-  glow: 0.4,
-  glowSpread: 0.5,
-  glowFalloff: 1.5,
-  sheen: 0,
-  sheenWidth: 3,
-  sheenFalloff: 1.5,
-  edgeShadow: "0 2px 6px rgba(0,0,0,0.16)",
-  edgeInsetShadow: "0 -4px 10px rgba(0,0,0,0.12)",
-  restEdgeShadow: "0 1px 4px rgba(0,0,0,0.45)",
+  glow: 0.5,
+  glowSpread: 0.8,
+  glowFalloff: 1.4,
+  sheen: 1.3,
+  sheenWidth: 1.8,
+  sheenFalloff: 1.2,
+  // 按下时外阴影（上下都有）
+  edgeShadow: "0 4px 12px rgba(0,0,0,0.45), 0 -3px 8px rgba(0,0,0,0.25)",
+  // 内阴影：上下两侧压暗，产生圆柱体积感
+  edgeInsetShadow: "0 4px 8px rgba(0,0,0,0.38), 0 -4px 8px rgba(0,0,0,0.28)",
+  // 静止时：白色描边（玻璃反光边）+ 上下阴影
+  restEdgeShadow:
+    "0 0 0 0.5px rgba(255,255,255,0.65), 0 5px 16px rgba(0,0,0,0.55), 0 -2px 8px rgba(0,0,0,0.30)",
 };
 
 export interface GlassSliderProps {

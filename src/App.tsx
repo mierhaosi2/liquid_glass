@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import blueImg from './assets/background/blue.jpg'
+import beautifulImg from './assets/background/big-beautiful.png'
 import { GlassSwitch } from './GlassSwitch'
 import { GlassSlider } from './GlassSlider'
 import { GlassNotification } from './GlassNotification'
@@ -46,7 +48,7 @@ function App() {
         <div className="grid">
           <div className="card tall">
             <div className="preview no-pad">
-              <GlassNotification />
+              <GlassNotification wallpaper={`url(${blueImg}) center/cover no-repeat`} />
             </div>
             <div className="card-info">
               <h3>通知卡片</h3>
@@ -55,7 +57,7 @@ function App() {
           </div>
           <div className="card tall">
             <div className="preview no-pad">
-              <GlassContextMenu />
+              <GlassContextMenu wallpaper={`url(${beautifulImg}) center/cover no-repeat`} />
             </div>
             <div className="card-info">
               <h3>右键菜单</h3>
