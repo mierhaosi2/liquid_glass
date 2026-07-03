@@ -83,7 +83,11 @@ const draw = (ctx: CanvasRenderingContext2D, t: number) => {
   }
 };
 
-export function GlassCanvas() {
+export interface GlassCanvasProps {
+  optics?: Partial<GlassOptics>;
+}
+
+export function GlassCanvas({ optics }: GlassCanvasProps = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Use motion values so mouse moves don't cause React re-renders
@@ -115,7 +119,7 @@ export function GlassCanvas() {
         size={180}
         radius={90}
         center={{ x: mx, y: my }}
-        optics={CANVAS_OPTICS}
+        optics={{ ...CANVAS_OPTICS, ...optics }}
         live
         style={{ position: "absolute", inset: 0 }}
       />

@@ -8,9 +8,32 @@ import { GlassNotification } from './GlassNotification'
 import { GlassContextMenu } from './GlassContextMenu'
 import { GlassCanvas } from './GlassCanvas'
 
+const LENS_PARAMS = [
+  { key: 'strength',   label: '折射强度',  min: 0,   max: 0.6,  step: 0.01, default: 0.22 },
+  { key: 'depth',      label: '镜头厚度',  min: 0,   max: 1,    step: 0.01, default: 0.85 },
+  { key: 'curvature',  label: '曲率',      min: 0,   max: 1,    step: 0.01, default: 0.60 },
+  { key: 'bend',       label: '边缘折弯',  min: 0,   max: 1,    step: 0.01, default: 0.55 },
+  { key: 'dispersion', label: '色散',      min: 0,   max: 1,    step: 0.01, default: 0.40 },
+  { key: 'frost',      label: '磨砂',      min: 0,   max: 5,    step: 0.1,  default: 0    },
+  { key: 'brightness', label: '亮度',      min: 0,   max: 0.8,  step: 0.01, default: 0    },
+  { key: 'glow',       label: '发光',      min: 0,   max: 1,    step: 0.01, default: 0.55 },
+  { key: 'sheen',      label: '光泽',      min: 0,   max: 2,    step: 0.01, default: 1.20 },
+] as const
+
+type LensKey = typeof LENS_PARAMS[number]['key']
+type LensState = Record<LensKey, number>
+
+const defaultLens = Object.fromEntries(
+  LENS_PARAMS.map(p => [p.key, p.default])
+) as LensState
+
 function App() {
   const [switchOn, setSwitchOn] = useState(true)
   const [sliderVal, setSliderVal] = useState(65)
+  const [lens, setLens] = useState<LensState>(defaultLens)
+
+  const setOpt = (key: LensKey, val: number) =>
+    setLens(prev => ({ ...prev, [key]: val }))
 
   return (
     <div className="page">
@@ -25,12 +48,36 @@ function App() {
         </header>
         <div className="grid">
           <div className="card tall">
-            <div className="preview">
-              <GlassCanvas />
+            <div className="preview no-pad">
+              <GlassCanvas optics={lens} />
             </div>
             <div className="card-info">
               <h3>画布</h3>
               <p>一个在生成艺术画布上漫游的玻璃镜头</p>
+            </div>
+          </div>
+          <div className="card tall">
+            <div className="preview lens-panel" style={{ flexDirection: 'column', alignItems: 'stretch', gap: 10, padding: '24px 24px 20px' }}>
+              {LENS_PARAMS.map(p => (
+                <label key={p.key} className="lens-row">
+                  <span className="lens-label">{p.label}</span>
+                  <input
+                    type="range"
+                    className="lens-slider"
+                    min={p.min} max={p.max} step={p.step}
+                    value={lens[p.key]}
+                    onChange={e => setOpt(p.key, Number(e.target.value))}
+                  />
+                  <span className="lens-value">{lens[p.key].toFixed(2)}</span>
+                </label>
+              ))}
+              <button className="lens-reset" onClick={() => setLens(defaultLens)}>
+                重置
+              </button>
+            </div>
+            <div className="card-info">
+              <h3>参数调试</h3>
+              <p>实时调整透镜光学属性</p>
             </div>
           </div>
         </div>
